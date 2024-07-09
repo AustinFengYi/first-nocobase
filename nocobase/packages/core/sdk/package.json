@@ -1,0 +1,15 @@
+{
+  "name": "@nocobase/sdk",
+  "version": "1.2.12-alpha",
+  "license": "AGPL-3.0",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "dependencies": {
+    "axios": "^0.26.1",
+    "qs": "^6.10.1"
+  },
+  "devDependencies": {
+    "axios-mock-adapter": "^1.20.0"
+  },
+  "gitHead": "d0b4efe4be55f8c79a98a331d99d9f8cf99021a1"
+}

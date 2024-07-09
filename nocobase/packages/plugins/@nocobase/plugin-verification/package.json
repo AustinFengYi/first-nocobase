@@ -1,0 +1,38 @@
+{
+  "name": "@nocobase/plugin-verification",
+  "displayName": "Verification",
+  "displayName.zh-CN": "验证码",
+  "description": "verification setting.",
+  "description.zh-CN": "验证码配置。",
+  "version": "1.2.12-alpha",
+  "license": "AGPL-3.0",
+  "main": "./dist/server/index.js",
+  "homepage": "https://docs.nocobase.com/handbook/verification",
+  "homepage.zh-CN": "https://docs-cn.nocobase.com/handbook/verification",
+  "devDependencies": {
+    "@alicloud/dysmsapi20170525": "2.0.17",
+    "@alicloud/openapi-client": "0.4.1",
+    "@alicloud/tea-util": "1.4.4",
+    "@formily/antd-v5": "1.x",
+    "@formily/core": "2.x",
+    "@formily/react": "2.x",
+    "@formily/shared": "2.x",
+    "antd": "5.x",
+    "react": "18.x",
+    "react-i18next": "^11.15.1",
+    "tencentcloud-sdk-nodejs": "^4.0.525"
+  },
+  "peerDependencies": {
+    "@nocobase/actions": "1.x",
+    "@nocobase/client": "1.x",
+    "@nocobase/database": "1.x",
+    "@nocobase/resourcer": "1.x",
+    "@nocobase/server": "1.x",
+    "@nocobase/test": "1.x",
+    "@nocobase/utils": "1.x"
+  },
+  "gitHead": "d0b4efe4be55f8c79a98a331d99d9f8cf99021a1",
+  "keywords": [
+    "Authentication"
+  ]
+}

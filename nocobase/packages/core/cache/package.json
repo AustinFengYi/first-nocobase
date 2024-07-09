@@ -1,0 +1,22 @@
+{
+  "name": "@nocobase/cache",
+  "version": "1.2.12-alpha",
+  "description": "",
+  "license": "AGPL-3.0",
+  "main": "./lib/index.js",
+  "types": "./lib/index.d.ts",
+  "dependencies": {
+    "bloom-filters": "^3.0.1",
+    "cache-manager": "^5.2.4",
+    "cache-manager-redis-yet": "^4.1.2"
+  },
+  "devDependencies": {
+    "redis": "^4.6.10"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nocobase/nocobase.git",
+    "directory": "packages/cache"
+  },
+  "gitHead": "d0b4efe4be55f8c79a98a331d99d9f8cf99021a1"
+}

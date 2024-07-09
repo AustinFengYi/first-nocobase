@@ -1,0 +1,124 @@
+/**
+ * This file is part of the NocoBase (R) project.
+ * Copyright (c) 2020-2024 NocoBase Co., Ltd.
+ * Authors: NocoBase Team.
+ *
+ * This project is dual-licensed under AGPL-3.0 and NocoBase Commercial License.
+ * For more information, please refer to: https://www.nocobase.com/agreement.
+ */
+
+import { ACL } from '@nocobase/acl';
+import { getNameByParams, parseRequest, ResourceManager } from '@nocobase/resourcer';
+import EventEmitter from 'events';
+import compose from 'koa-compose';
+import { loadDefaultActions } from './load-default-actions';
+import { ICollectionManager } from './types';
+
+export type DataSourceOptions = any;
+
+export abstract class DataSource extends EventEmitter {
+  public collectionManager: ICollectionManager;
+  public resourceManager: ResourceManager;
+  public acl: ACL;
+
+  constructor(protected options: DataSourceOptions) {
+    super();
+    this.init(options);
+  }
+
+  get name() {
+    return this.options.name;
+  }
+
+  static testConnection(options?: any): Promise<boolean> {
+    return Promise.resolve(true);
+  }
+
+  init(options: DataSourceOptions = {}) {
+    this.acl = this.createACL();
+
+    this.resourceManager = this.createResourceManager({
+      prefix: process.env.API_BASE_PATH,
+      ...options.resourceManager,
+    });
+
+    this.collectionManager = this.createCollectionManager(options);
+    this.resourceManager.registerActionHandlers(loadDefaultActions());
+
+    if (options.acl !== false) {
+      this.resourceManager.use(this.acl.middleware(), { tag: 'acl', after: ['auth'] });
+    }
+  }
+
+  middleware(middlewares: any = []) {
+    const dataSource = this;
+
+    if (!this['_used']) {
+      for (const [fn, options] of middlewares) {
+        this.resourceManager.use(fn, options);
+      }
+      this['_used'] = true;
+    }
+
+    return async (ctx, next) => {
+      ctx.dataSource = dataSource;
+
+      ctx.getCurrentRepository = () => {
+        const { resourceName, resourceOf } = ctx.action;
+
+        return this.collectionManager.getRepository(resourceName, resourceOf);
+      };
+
+      return compose([this.collectionToResourceMiddleware(), this.resourceManager.middleware()])(ctx, next);
+    };
+  }
+
+  createACL() {
+    return new ACL();
+  }
+
+  createResourceManager(options) {
+    return new ResourceManager(options);
+  }
+
+  async load(options: any = {}) {}
+
+  abstract createCollectionManager(options?: any): ICollectionManager;
+
+  protected collectionToResourceMiddleware() {
+    return async (ctx, next) => {
+      const params = parseRequest(
+        {
+          path: ctx.request.path,
+          method: ctx.request.method,
+        },
+        {
+          prefix: this.resourceManager.options.prefix,
+          accessors: this.resourceManager.options.accessors,
+        },
+      );
+      if (!params) {
+        return next();
+      }
+      const resourceName = getNameByParams(params);
+      // 如果资源名称未被定义
+      if (this.resourceManager.isDefined(resourceName)) {
+        return next();
+      }
+
+      const splitResult = resourceName.split('.');
+
+      const collectionName = splitResult[0];
+
+      if (!this.collectionManager.hasCollection(collectionName)) {
+        return next();
+      }
+
+      this.resourceManager.define({
+        name: resourceName,
+      });
+
+      return next();
+    };
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "name": "@nocobase/plugin-ui-schema-storage",
+  "displayName": "UI schema storage",
+  "displayName.zh-CN": "UI schema 存储服务",
+  "description": "Provides centralized UI schema storage service.",
+  "description.zh-CN": "提供中心化的 UI schema 存储服务。",
+  "version": "1.2.12-alpha",
+  "license": "AGPL-3.0",
+  "main": "./dist/server/index.js",
+  "homepage": "https://docs.nocobase.com/handbook/ui-schema-storage",
+  "homepage.zh-CN": "https://docs-cn.nocobase.com/handbook/ui-schema-storage",
+  "devDependencies": {
+    "@formily/json-schema": "2.x"
+  },
+  "peerDependencies": {
+    "@nocobase/actions": "1.x",
+    "@nocobase/cache": "1.x",
+    "@nocobase/client": "1.x",
+    "@nocobase/database": "1.x",
+    "@nocobase/plugin-error-handler": "1.x",
+    "@nocobase/plugin-users": "1.x",
+    "@nocobase/resourcer": "1.x",
+    "@nocobase/server": "1.x",
+    "@nocobase/test": "1.x",
+    "@nocobase/utils": "1.x"
+  },
+  "gitHead": "d0b4efe4be55f8c79a98a331d99d9f8cf99021a1",
+  "keywords": [
+    "System & security"
+  ]
+}
