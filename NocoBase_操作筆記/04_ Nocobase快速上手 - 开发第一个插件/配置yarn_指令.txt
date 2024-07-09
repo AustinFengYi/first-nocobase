@@ -1,0 +1,8 @@
+yarn config set registry https://registry.npmmirror.com/
+yarn config set sqlite3_binary_host_mirror https://npmmirror.com/mirrors/sqlites/
+
+yarn install --fronzen-lockfile
+
+yarn nocobase install 
+
+Yarn dev

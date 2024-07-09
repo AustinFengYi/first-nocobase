@@ -1,0 +1,20 @@
+version: "3"
+
+networks:
+  nocobase:
+    driver: bridge
+
+services:
+  app:
+    image: nocobase/nocobase:latest
+    networks:
+      - nocobase
+    environment:
+      # The application's secret key, used to generate user tokens, etc.
+      # If APP_KEY is changed, old tokens will also become invalid.
+      # It can be any random string, and make sure it is not exposed.
+      - APP_KEY=your-secret-key
+    volumes:
+      - ./storage:/app/nocobase/storage
+    ports:
+      - "13000:80"
